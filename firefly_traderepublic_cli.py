@@ -3,7 +3,9 @@
 
 import click
 import sys
+
 from firefly_traderepublic_transactions import FireflyTraderepublicClient
+
 @click.command()
 @click.option(
     '--phone_no', '-d',
@@ -77,5 +79,6 @@ def main(phone_no, pin, firefly_token, account_id, vault_id, topup_id, wallet_id
         sys.exit()
     client = FireflyTraderepublicClient(phone_no, pin, firefly_token, account_id, firefly_url, vault_id, topup_id, wallet_id, currency)
     client.process()
+    
 if __name__ == "__main__":
     main()
