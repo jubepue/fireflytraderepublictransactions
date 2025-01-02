@@ -38,9 +38,8 @@ class FireflyTransaction:
         self.currency = currency
       
     def write_transaction_leg_id(self):
-        cachedir = user_cache_dir(_CACHE_DIR)
-        Path(cachedir).mkdir(parents=True, exist_ok=True)
-        file = Path(os.path.join(cachedir, _CACHE_FILE)).open(mode='w')
+        Path(_CACHE_DIR).mkdir(parents=True, exist_ok=True)
+        file = Path(os.path.join(_CACHE_DIR, _CACHE_FILE)).open(mode='w')
         file.write(self.leg_id)
       
     @staticmethod
@@ -68,10 +67,9 @@ class FireflyTransaction:
           
     @staticmethod
     def get_last_transaction_leg_id():
-        cachedir = user_cache_dir('revolut')
-        Path(cachedir).mkdir(parents=True, exist_ok=True)
+        Path(_CACHE_DIR).mkdir(parents=True, exist_ok=True)
         try:
-            file = Path(os.path.join(cachedir, _CACHE_FILE)).open(mode='r')
+            file = Path(os.path.join(_CACHE_DIR, _CACHE_FILE)).open(mode='r')
         except FileNotFoundError:
             return ''
         return file.readline()
