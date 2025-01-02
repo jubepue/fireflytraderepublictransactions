@@ -9,15 +9,15 @@ from firefly_traderepublic_transactions import FireflyTraderepublicClient
 @click.command()
 @click.option(
     '--phone_no', '-n',
-    envvar="TRADEREPUBLIC_PHONE",
+    envvar="PHONE_NO",
     type=str,
-    help='Trade Republic phone +49XXXXXXXXX format (required)',
+    help='TradeRepublic phone international format(required)',
 )
 @click.option(
     '--pin', '-p',
-    envvar="TRADEREPUBLIC_PIN",
+    envvar="PIN",
     type=str,
-    help='Trade Republic pin 0000 format (required)',
+    help='TradeRepublic pin (required)',
 )
 @click.option(
     '--firefly-token', '-f',
@@ -29,13 +29,13 @@ from firefly_traderepublic_transactions import FireflyTraderepublicClient
     '--account-id', '-a',
     envvar="TRADEREPUBLIC_ACCOUNT",
     type=str,
-    help='Id of Trade Republic account in FireflyIII (required)',
+    help='Id of TradeRepublic account in FireflyIII (required)',
 )
 @click.option(
     '--vault-id', '-v',
     envvar="TRADEREPUBLIC_VAULT",
     type=str,
-    help='Id of Trade Republic vault in FireflyIII',
+    help='Id of TradeRepublic vault in FireflyIII',
 )
 @click.option(
     '--topup-id', '-t',
@@ -63,16 +63,16 @@ from firefly_traderepublic_transactions import FireflyTraderepublicClient
 )
 def main(phone_no, pin, firefly_token, account_id, vault_id, topup_id, wallet_id, currency, firefly_url):
     if phone_no is None:
-        print("You don't have a Trade Republic phone number. Use '+49XXXXXXXXX' format")
+        print("You don't have a TradeRepublic phone number. Use international format")
         sys.exit()
     if pin is None:
-        print("You don't have a Trade Republic pin. Use '0000' format")
+        print("You don't have a TradeRepublic pin")
         sys.exit()
     if firefly_token is None:
         print("You don't have a FireflyIII token. Use 'Create Personal Access token' option in FireflyIII")
         sys.exit()
     if account_id is None:
-        print("You don't have a Trade Republic account Id inside FireflyIII")
+        print("You don't have a TradeRepublic account Id inside FireflyIII")
         sys.exit()
     if firefly_url is None:
         print("You don't have FireflyIII instance URL")
