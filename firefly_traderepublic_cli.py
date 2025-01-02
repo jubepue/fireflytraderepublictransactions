@@ -8,7 +8,7 @@ from firefly_traderepublic_transactions import FireflyTraderepublicClient
 
 @click.command()
 @click.option(
-    '--phone_no', '-d',
+    '--phone_no', '-n',
     envvar="TRADEREPUBLIC_PHONE",
     type=str,
     help='Trade Republic phone +49XXXXXXXXX format (required)',
