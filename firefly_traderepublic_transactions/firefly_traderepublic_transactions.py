@@ -188,18 +188,3 @@ class FireflyTraderepublicClient(TradeRepublicApi):
         self.firefly_url = firefly_url
         self.currency = currency
       
-    def get_account_transactions(self, from_date=(datetime.now() - timedelta(14))):
-        from_date_ts = from_date.timestamp()
-        path = _URL_GET_TRANSACTIONS_LAST + '?from={from_date_ts}&walletId={wallet_id}'.format(
-            from_date_ts=int(from_date_ts) * 1000,
-            wallet_id=self.get_wallet_id()
-        )
-        ret = self.client._get(path)
-        raw_transactions = json.loads(ret.text)
-        transactions = FireflyTransactions(raw_transactions, self.firefly_token, self.account_id, self.vault_id,
-                                           self.topup_id, self.wallet_id, self.firefly_url, self.currency)
-        return transactions
-      
-    def process(self):
-        transactions = self.get_account_transactions()
-        transactions.process()
