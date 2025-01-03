@@ -209,10 +209,10 @@ class FireflyTraderepublicClient:
 
             if subscription.get("type", "") == "timelineTransactions":
                 await self.tl.get_next_timeline_transactions(response)
-            elif subscription.get("type", "") == "timelineActivityLog":
-                await self.tl.get_next_timeline_activity_log(response)
-            elif subscription.get("type", "") == "timelineDetailV2":
-                await self.tl.process_timelineDetail(response, self)
+            #elif subscription.get("type", "") == "timelineActivityLog":
+                #await self.tl.get_next_timeline_activity_log(response)
+            #elif subscription.get("type", "") == "timelineDetailV2":
+                #await self.tl.process_timelineDetail(response, self)
             else:
                 self.log.warning(
                     f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
