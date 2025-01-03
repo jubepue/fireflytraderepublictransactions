@@ -7,7 +7,8 @@ from pathlib import Path
 import requests
 
 from appdirs import user_cache_dir
-from pytr.api import TradeRepublicApi
+#from pytr.api import TradeRepublicApi
+from pytr.account import login
 
 _CACHE_FILE = 'last_transaction.txt'
 _CACHE_DIR = 'traderepublic'
@@ -187,14 +188,7 @@ class FireflyTraderepublicClient(TradeRepublicApi):
         self.wallet_id = wallet_id
         self.firefly_url = firefly_url
         self.currency = currency
-    def login(self):
-        self.log.info("Logging in")
-        r = self._sign_request(
-            "/api/v1/auth/login",
-            payload={"phoneNumber": self.phone_no, "pin": self.pin},
-        )
-        self._refresh_token = r.json()["refreshToken"]
-        self.session_token = r.json()["sessionToken"]
+    
     def process(self):
-        transactions = asyncio.get_event_loop().run_until_complete(login())
-        transactions.process()
+        login(phone_no=phone_no, pin=pin)
+        #transactions.process()
