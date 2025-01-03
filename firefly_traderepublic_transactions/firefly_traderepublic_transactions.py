@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -190,10 +191,12 @@ class FireflyTraderepublicClient:
         self.wallet_id = wallet_id
         self.firefly_url = firefly_url
         self.currency = currency
+        self.log = logging.getLogger(__name__)
     async def dl_loop(self):
         tr=login(phone_no=self.phone_no, pin=self.pin)
         tl = Timeline(tr, 0)
         await tl.get_next_timeline_transactions()
+        self.log(tl.json())
     
     def process(self):
         asyncio.get_event_loop().run_until_complete(self.dl_loop())
