@@ -191,11 +191,32 @@ class FireflyTraderepublicClient:
         self.wallet_id = wallet_id
         self.firefly_url = firefly_url
         self.currency = currency
+        self.tr=login(phone_no=phone_no, pin=pin)
+        self.tl = Timeline(tr, 0)
         self.log = logging.getLogger(__name__)
     async def dl_loop(self):
-        tr=login(phone_no=self.phone_no, pin=self.pin)
-        tl = Timeline(tr, 0)
-        await tl.get_next_timeline_transactions()
+        await self.tl.get_next_timeline_transactions()
+
+        while True:
+            try:
+                _, subscription, response = await self.tr.recv()
+            except TradeRepublicError as e:
+                self.log.error(
+                    f'Error response for subscription "{e.subscription}". Re-subscribing...'
+                )
+                await self.tr.subscribe(e.subscription)
+                continue
+
+            if subscription.get("type", "") == "timelineTransactions":
+                await self.tl.get_next_timeline_transactions(response)
+            elif subscription.get("type", "") == "timelineActivityLog":
+                await self.tl.get_next_timeline_activity_log(response)
+            elif subscription.get("type", "") == "timelineDetailV2":
+                await self.tl.process_timelineDetail(response, self)
+            else:
+                self.log.warning(
+                    f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
+                )
         self.log.info(json.dumps(tl, default=lambda x: None))
     
     def process(self):
