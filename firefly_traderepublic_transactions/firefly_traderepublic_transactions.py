@@ -9,7 +9,7 @@ import requests
 import asyncio
 
 from appdirs import user_cache_dir
-from pytr.dl import dl_doc
+from pytr.dl import DL
 from pytr.account import login
 from pytr.timeline import Timeline
 
@@ -195,31 +195,15 @@ class FireflyTraderepublicClient:
         self.tr=login(phone_no=phone_no, pin=pin)
         self.tl = Timeline(self.tr, 0)
         self.log = logging.getLogger(__name__)
-    async def dl_loop(self):
-        await self.tl.get_next_timeline_transactions()
-
-        while True:
-            try:
-                _, subscription, response = await self.tr.recv()
-            except TradeRepublicError as e:
-                self.log.error(
-                    f'Error response for subscription "{e.subscription}". Re-subscribing...'
-                )
-                await self.tr.subscribe(e.subscription)
-                continue
-
-            if subscription.get("type", "") == "timelineTransactions":
-                await self.tl.get_next_timeline_transactions(response)
-            elif subscription.get("type", "") == "timelineActivityLog":
-                await self.tl.get_next_timeline_activity_log(response)
-            elif subscription.get("type", "") == "timelineDetailV2":
-                await self.tl.process_timelineDetail(response, self)
-            else:
-                self.log.warning(
-                    f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
-                )
+    async def transaction(self):
+        dl = DL(
+            login(phone_no=args.phone_no, pin=args.pin, web=not args.applogin),
+            _CACHE_DIR,
+            "{iso_date}{time} {title}{doc_num}",
+        )
+        asyncio.get_event_loop().run_until_complete(dl.dl_loop())
         self.log.info(json.dumps(self.tl, default=lambda x: None))
     
     def process(self):
-        asyncio.get_event_loop().run_until_complete(self.dl_loop())
+        self.transaction()
         #transactions.process()
