@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import requests
+import asyncio
 
 from appdirs import user_cache_dir
 from pytr.account import login
@@ -192,10 +193,9 @@ class FireflyTraderepublicClient:
         self.tr = none
         self.tl = Timeline(self.tr, 0)
     async def dl_loop(self):
-        await self.tl.get_next_timeline_transactions()
-        #self.log.info()
+        tr=login(phone_no=self.phone_no, pin=self.pin)
+        await tl.get_next_timeline_transactions()
     
     def process(self):
-        self.tr=login(phone_no=self.phone_no, pin=self.pin)
-        dl_loop()
+        asyncio.get_event_loop().run_until_complete(self.dl_loop())
         #transactions.process()
