@@ -213,10 +213,10 @@ class FireflyTraderepublicClient:
                 #await self.tl.get_next_timeline_activity_log(response)
             #elif subscription.get("type", "") == "timelineDetailV2":
                 #await self.tl.process_timelineDetail(response, self)
-            else:
-                self.log.warning(
-                    f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
-                )
+            #else:
+                #self.log.warning(
+                    #f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
+                #)
         self.log.info(json.dumps(self.tl, default=lambda x: None))
     
     def process(self):
