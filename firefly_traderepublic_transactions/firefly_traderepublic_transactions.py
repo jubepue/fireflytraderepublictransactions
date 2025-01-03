@@ -192,12 +192,12 @@ class FireflyTraderepublicClient:
         self.wallet_id = wallet_id
         self.firefly_url = firefly_url
         self.currency = currency
-        self.tr=login(phone_no=phone_no, pin=pin)
+        self.tr = login(phone_no=phone_no, pin=pin)
         self.tl = Timeline(self.tr, 0)
         self.log = logging.getLogger(__name__)
     async def transaction(self):
         dl = DL(
-            login(phone_no=self.phone_no, pin=self.pin),
+            self.tr,
             _CACHE_DIR,
             "{iso_date}{time} {title}{doc_num}",
         )
