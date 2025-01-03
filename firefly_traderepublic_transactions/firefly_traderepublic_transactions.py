@@ -192,7 +192,7 @@ class FireflyTraderepublicClient:
         self.currency = currency
     async def dl_loop(self):
         tr=login(phone_no=self.phone_no, pin=self.pin)
-        tl = Timeline(self.tr, 0)
+        tl = Timeline(tr, 0)
         await tl.get_next_timeline_transactions()
     
     def process(self):
