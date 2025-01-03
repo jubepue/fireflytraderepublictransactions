@@ -7,7 +7,6 @@ from pathlib import Path
 import requests
 
 from appdirs import user_cache_dir
-from revolut import Amount, Revolut, _URL_GET_TRANSACTIONS_LAST
 from pytr.api import TradeRepublicApi
 
 _CACHE_FILE = 'last_transaction.txt'
