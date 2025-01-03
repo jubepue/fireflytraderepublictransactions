@@ -8,9 +8,10 @@ import requests
 
 from appdirs import user_cache_dir
 from revolut import Amount, Revolut, _URL_GET_TRANSACTIONS_LAST
+from pytr.api import TradeRepublicApi
 
 _CACHE_FILE = 'last_transaction.txt'
-_CACHE_DIR = 'revolut'
+_CACHE_DIR = 'traderepublic'
 _DATE_FORMAT = '%Y-%m-%d'
 
 _TRANSACTIONS_ENDPOINT = 'api/v1/transactions'
@@ -178,9 +179,9 @@ class FireflyTransactions:
         response = requests.post(self.push_url, headers=self.headers, json=payload).json()
         print(response)
       
-class FireflyRevolutClient(Revolut):
-    def __init__(self, device_id, revolut_token, firefly_token, account_id, firefly_url, vault_id, topup_id, wallet_id, currency):
-        super().__init__(token=revolut_token, device_id=device_id)
+class FireflyTraderepublicClient(TradeRepublicApi):
+    def __init__(self, phone_no, pin, firefly_token, account_id, firefly_url, vault_id, topup_id, wallet_id, currency):
+        super().__init__(phone_no=phone_no, pin=pin, locale="en")
         self.firefly_token = firefly_token
         self.account_id = account_id
         self.vault_id = vault_id
