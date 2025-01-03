@@ -142,8 +142,7 @@ class FireflyTransactions:
                     date=transaction.get('createdDate'),
                     description=transaction.get('description'),
                     merchant=transaction.get('merchant'),
-                    amount=Amount(revolut_amount=transaction.get('amount'),
-                                  currency=transaction.get('currency')),
+                    amount=transaction.get('amount'),
                     category=transaction.get('category'),
                     is_vault=bool(transaction.get('vault')),
                     currency=transaction.get('currency')
