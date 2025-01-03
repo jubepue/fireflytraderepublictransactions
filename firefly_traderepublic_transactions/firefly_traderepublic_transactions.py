@@ -217,7 +217,7 @@ class FireflyTraderepublicClient:
                 self.log.warning(
                     f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
                 )
-        self.log.info(json.dumps(tl, default=lambda x: None))
+        self.log.info(json.dumps(self.tl, default=lambda x: None))
     
     def process(self):
         asyncio.get_event_loop().run_until_complete(self.dl_loop())
