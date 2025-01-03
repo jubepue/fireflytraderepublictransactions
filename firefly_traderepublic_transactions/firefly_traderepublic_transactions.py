@@ -9,6 +9,7 @@ import requests
 import asyncio
 
 from appdirs import user_cache_dir
+from pytr.dl import dl_doc
 from pytr.account import login
 from pytr.timeline import Timeline
 
@@ -209,14 +210,14 @@ class FireflyTraderepublicClient:
 
             if subscription.get("type", "") == "timelineTransactions":
                 await self.tl.get_next_timeline_transactions(response)
-            #elif subscription.get("type", "") == "timelineActivityLog":
-                #await self.tl.get_next_timeline_activity_log(response)
-            #elif subscription.get("type", "") == "timelineDetailV2":
-                #await self.tl.process_timelineDetail(response, self)
-            #else:
-                #self.log.warning(
-                    #f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
-                #)
+            elif subscription.get("type", "") == "timelineActivityLog":
+                await self.tl.get_next_timeline_activity_log(response)
+            elif subscription.get("type", "") == "timelineDetailV2":
+                await self.tl.process_timelineDetail(response, self)
+            else:
+                self.log.warning(
+                    f"unmatched subscription of type '{subscription['type']}':\n{preview(response)}"
+                )
         self.log.info(json.dumps(self.tl, default=lambda x: None))
     
     def process(self):
