@@ -196,7 +196,7 @@ class FireflyTraderepublicClient:
         tr=login(phone_no=self.phone_no, pin=self.pin)
         tl = Timeline(tr, 0)
         await tl.get_next_timeline_transactions()
-        self.log(tl.json())
+        self.log.info(json.dumps(tl, default=lambda x: None))
     
     def process(self):
         asyncio.get_event_loop().run_until_complete(self.dl_loop())
