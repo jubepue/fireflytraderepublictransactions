@@ -189,7 +189,7 @@ class FireflyTraderepublicClient:
         self.wallet_id = wallet_id
         self.firefly_url = firefly_url
         self.currency = currency
-        self.tr=tr
+        self.tr = tr
         self.tl = Timeline(self.tr, 0)
     async def dl_loop(self):
         await self.tl.get_next_timeline_transactions()
