@@ -181,6 +181,8 @@ class FireflyTransactions:
 class FireflyTraderepublicClient(TradeRepublicApi):
     def __init__(self, phone_no, pin, firefly_token, account_id, firefly_url, vault_id, topup_id, wallet_id, currency):
         super().__init__(phone_no=phone_no, pin=pin, locale="en", save_cookies=True)
+        self.phone_no = phone_no
+        self.pin = pin
         self.firefly_token = firefly_token
         self.account_id = account_id
         self.vault_id = vault_id
@@ -190,5 +192,5 @@ class FireflyTraderepublicClient(TradeRepublicApi):
         self.currency = currency
     
     def process(self):
-        login(phone_no=phone_no, pin=pin)
+        login(phone_no=self.phone_no, pin=self.pin)
         #transactions.process()
