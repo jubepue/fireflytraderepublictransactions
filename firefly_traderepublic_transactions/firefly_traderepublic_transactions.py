@@ -7,8 +7,8 @@ from pathlib import Path
 import requests
 
 from appdirs import user_cache_dir
-#from pytr.api import TradeRepublicApi
 from pytr.account import login
+from pytr.timeline import Timeline
 
 _CACHE_FILE = 'last_transaction.txt'
 _CACHE_DIR = 'traderepublic'
@@ -178,9 +178,8 @@ class FireflyTransactions:
         response = requests.post(self.push_url, headers=self.headers, json=payload).json()
         print(response)
       
-class FireflyTraderepublicClient(TradeRepublicApi):
-    def __init__(self, phone_no, pin, firefly_token, account_id, firefly_url, vault_id, topup_id, wallet_id, currency):
-        super().__init__(phone_no=phone_no, pin=pin, locale="en", save_cookies=True)
+class FireflyTraderepublicClient:
+    def __init__(self, phone_no, pin, firefly_token, tr, account_id, firefly_url, vault_id, topup_id, wallet_id, currency):
         self.phone_no = phone_no
         self.pin = pin
         self.firefly_token = firefly_token
@@ -190,7 +189,13 @@ class FireflyTraderepublicClient(TradeRepublicApi):
         self.wallet_id = wallet_id
         self.firefly_url = firefly_url
         self.currency = currency
+        self.tr=tr
+        self.tl = Timeline(self.tr, 0)
+    async def dl_loop(self):
+        await self.tl.get_next_timeline_transactions()
+        #self.log.info()
     
     def process(self):
-        login(phone_no=self.phone_no, pin=self.pin)
+        self.tr=login(phone_no=self.phone_no, pin=self.pin)
+        dl_loop()
         #transactions.process()
